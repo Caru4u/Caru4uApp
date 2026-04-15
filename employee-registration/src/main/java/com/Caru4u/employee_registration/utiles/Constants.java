@@ -24,5 +24,10 @@ public class Constants {
     public static final String  USER_NOT_FOUND= "User not found";
     public static final String  Invalid_password= "Invalid password";
     public static final String  Login_Successful= "Login successful";
+    public static final String  Old_mobile_NumberNot_found= "Old mobile number not found";
+    public static final String  Invalid_new_Mobile_number= "Invalid new mobile number";
+    public static final String  New_mobile_already_registerd= "New mobile number already registered";
+    public static final String  Moblie_number_updatedSusscefully= "Mobile number updated successfully";;
+
 
 }
