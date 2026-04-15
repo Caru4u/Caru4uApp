@@ -21,5 +21,8 @@ public class Constants {
     public static final String  Bank_account_Number_required= "Bank account number is required";
     public static final String  Invalid_account_number= "Invalid bank account number";
     public static final String  Emergency_number= "Emergency Number Required";
+    public static final String  USER_NOT_FOUND= "User not found";
+    public static final String  Invalid_password= "Invalid password";
+    public static final String  Login_Successful= "Login successful";
 
 }

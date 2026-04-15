@@ -34,7 +34,7 @@ public class EmployeeServiceimpl implements EmployeeService {
         return Constants.Register_Sucessful;
     }
 
-    private String validateMobile(String mobile) {
+    public String validateMobile(String mobile) {
         if (mobile == null || mobile.isEmpty()) {
             return Constants.MobileNumber_Required;
         }
