@@ -21,5 +21,12 @@ public class Constants {
     public static final String  Bank_account_Number_required= "Bank account number is required";
     public static final String  Invalid_account_number= "Invalid bank account number";
     public static final String  Emergency_number= "Emergency Number Required";
+    public static final String  USER_NOT_FOUND= "User Not Found";
+    public static final String  Invalid_password= "Invalid Password";
+    public static final String  Login_Successful= "Login Successful";
+    public static final String  Invalid_new_Mobile_number= "Invalid Mobile Number";
+    public static final String  New_mobile_already_registerd= "Mobile Number Already Register";
+    public static final String  Moblie_number_updatedSusscefully= "New Mobile number Updated ";
+    public static final String  Old_mobile_NumberNot_found= "Old Mobile Number Not found ";
 
 }
