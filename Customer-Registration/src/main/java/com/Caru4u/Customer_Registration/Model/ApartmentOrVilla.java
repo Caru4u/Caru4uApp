@@ -1,0 +1,23 @@
+package com.Caru4u.Customer_Registration.Model;
+
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@Entity
+@Table(name = "apartment_or_villa")
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+public class ApartmentOrVilla {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(unique = true, nullable = false, length = 100)
+    private String name;
+}
