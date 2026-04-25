@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
+
 @Entity
 @Table(name = "customer_registor")
 @Getter
@@ -42,5 +44,12 @@ public class CustomerRegistor {
 
     @Column(length = 20)
     private String plotNumber;
+
+    @Column(length = 6, nullable = false)   // typical OTP length
+    private String otp;
+
+    @Column(nullable = false)
+    private LocalDateTime otpExpiry;
+
 
 }
