@@ -21,7 +21,6 @@ public class ForgotPasswordServiceImpl implements ForgotPasswordService {
 
     private final CustomerRegistorRepository repository;
     private final JavaMailSender mailSender;
-    private final PasswordEncoder passwordEncoder;
 
     // 🔢 Send OTP
     @Override
