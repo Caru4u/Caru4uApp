@@ -11,4 +11,5 @@ public interface CustomerRegistorRepository extends JpaRepository<CustomerRegist
     boolean existsByMobileNumber(String mobileNumber);
     boolean existsByMailid(String mailid);
     Optional<CustomerRegistor> findByMailidAndOtp(String mailid, String otp);
+    Optional<CustomerRegistor> findByMobileNumberAndOtp(String mobileNumber, String otp);
 }
