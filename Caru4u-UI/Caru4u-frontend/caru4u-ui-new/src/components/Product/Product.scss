@@ -1,0 +1,28 @@
+.product-section {
+  padding: 40px 20px;
+  text-align: center;
+  background: #f9f9f9;
+
+  h2 {
+    margin-bottom: 20px;
+    color: #222;
+  }
+
+  .product-list {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+
+    li a {
+      font-weight: 600;
+      color: #0077cc;
+      text-decoration: none;
+
+      &:hover {
+        color: #00aaff;
+      }
+    }
+  }
+}
