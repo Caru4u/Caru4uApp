@@ -1,66 +1,82 @@
-/* Header.scss */
+/* RESET spacing issue */
+body {
+  margin: 0;
+  padding: 0;
+}
+
 .header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background: rgba(0, 0, 0, 0.7); // blurred car interior effect
-  padding: 0.75rem 2rem;
+
+  width: 100%;
+  margin: 0;
+  padding: 10px 40px;
+
+  background: #4a4a4a;
   color: #fff;
 
+  box-sizing: border-box;
+
+  /* LOGO */
   &__logo {
     display: flex;
     align-items: center;
 
     img {
-      height: 50px;
-      margin-right: 0.75rem;
-    }
-
-    &__tagline {
-      font-size: 0.9rem;
-      font-weight: 300;
-      color: #ddd;
+      height: 40px;   // 🔥 fixed size
+      width: auto;
     }
   }
 
-  &__nav ul {
-    list-style: none;
+  /* NAV CENTER */
+  &__nav {
+    flex: 1;
     display: flex;
-    gap: 1.5rem;
+    justify-content: center;
 
-    li a {
-      text-decoration: none;
-      color: #fff;
-      font-weight: 500;
-      transition: color 0.3s ease;
+    ul {
+      list-style: none;
+      display: flex;
+      gap: 30px;
+      padding: 0;
+      margin: 0;
 
-      &:hover {
-        color: #00aaff; // accent color
+      li a {
+        text-decoration: none;
+        color: #fff;
+        font-weight: 500;
+        transition: 0.3s;
+
+        &:hover {
+          color: #00aaff;
+        }
       }
     }
   }
 
+  /* ACTIONS RIGHT */
   &__actions {
     display: flex;
-    gap: 1rem;
+    gap: 10px;
 
     .btn {
-      padding: 0.5rem 1rem;
-      border: none;
-      border-radius: 4px;
+      padding: 6px 14px;
+      border-radius: 6px;
       cursor: pointer;
-      font-weight: 600;
+      font-weight: 500;
+    }
 
-      &--login {
-        background: transparent;
-        color: #fff;
-        border: 1px solid #fff;
-      }
+    .btn--login {
+      background: transparent;
+      border: 1px solid #fff;
+      color: #fff;
+    }
 
-      &--register {
-        background: #00aaff;
-        color: #fff;
-      }
+    .btn--register {
+      background: #00aaff;
+      color: #fff;
+      border: none;
     }
   }
 }

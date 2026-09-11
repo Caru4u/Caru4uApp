@@ -1,16 +1,23 @@
 package com.Caru4u.Customer_Registration.Services;
 
+import com.Caru4u.Customer_Registration.Dao.ApartmentOrVillaRepository;
 import com.Caru4u.Customer_Registration.Dao.CustomerRegistorRepository;
+import com.Caru4u.Customer_Registration.Model.ApartmentOrVilla;
 import com.Caru4u.Customer_Registration.Model.CustomerRegistor;
 import com.Caru4u.Customer_Registration.Utails.Constants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class CustomerRegistorServiceimpl implements CustomerRegistorService {
 
     @Autowired
     private CustomerRegistorRepository customerRegistorRepository;
+
+    @Autowired
+    private ApartmentOrVillaRepository apartmentOrVillaRepository;
 
     @Override
     public String registerCustomer(CustomerRegistor customer) {
@@ -38,5 +45,9 @@ public class CustomerRegistorServiceimpl implements CustomerRegistorService {
         if (!password.matches(".*[A-Z].*")) return false; // must contain uppercase
         if (!password.matches(".*\\d.*")) return false;   // must contain digit
         return true;
+    }
+
+    public List<ApartmentOrVilla> getAll() {
+        return apartmentOrVillaRepository.findAll();
     }
 }

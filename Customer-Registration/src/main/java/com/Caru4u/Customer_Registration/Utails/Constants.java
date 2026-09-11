@@ -17,4 +17,5 @@ public class Constants {
     public static final String Valid_for_minutes = "\nValid for 5 minutes.";
     public static final String Password_reset_SUccessfully = "Password reset successful";
     public static final String Password_reset_Failed = "Password reset Failed";
+    public static final String Your_Call_Back_Request = "Your callback request has been submitted successfully ✅";
 }

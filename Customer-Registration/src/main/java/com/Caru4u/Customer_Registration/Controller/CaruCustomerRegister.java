@@ -1,9 +1,6 @@
 package com.Caru4u.Customer_Registration.Controller;
 
-import com.Caru4u.Customer_Registration.Model.CustomerRegistor;
-import com.Caru4u.Customer_Registration.Model.LoginRequest;
-import com.Caru4u.Customer_Registration.Model.MobileOtpRequest;
-import com.Caru4u.Customer_Registration.Model.MobileRequest;
+import com.Caru4u.Customer_Registration.Model.*;
 import com.Caru4u.Customer_Registration.Services.CustomerLoginService;
 import com.Caru4u.Customer_Registration.Services.CustomerRegistorService;
 import com.Caru4u.Customer_Registration.Services.OtpService;
@@ -11,6 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping("/auth/Customer")
 public class CaruCustomerRegister {
@@ -50,6 +50,11 @@ public class CaruCustomerRegister {
 //        return ok ? "VERIFIED" : "INVALID_OR_EXPIRED";
 //
 //    }
+
+    @GetMapping("/apartment-or-villa")
+    public List<ApartmentOrVilla> getAllApartments() {
+        return service.getAll();
+    }
 
 
 }

@@ -4,4 +4,6 @@ import com.Caru4u.employee_registration.model.EmployeeModel;
 
 public interface EmployeeService {
      String saveEmployee(EmployeeModel employee);
+
+    EmployeeModel getEmployeeById(Long id);
 }
