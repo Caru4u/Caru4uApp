@@ -3,195 +3,68 @@ package com.Caru4u.employee_registration.model;
 import jakarta.persistence.*;
 import lombok.Data;
 import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
 
-import java.sql.Types;
 import java.time.LocalDate;
 
 @Entity
 @Table(name = "caru4u_employes")
 @Data
 public class EmployeeModel {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long empId;
 
     private String empFirstName;
+
     private String empLastName;
 
     private LocalDate empDateOfBirth;
 
+    @Column(unique = true, nullable = false)
     private String empMobileNumber;
+
     private String empEmergencyNumber;
 
+    @Column(unique = true, nullable = false)
     private String empMailId;
 
     private String empAddress;
 
+    @Column(unique = true, nullable = false)
     private String empAdharNumber;
+
+    @Column(unique = true, nullable = false)
     private String empPanNumber;
+
     private String empGender;
+
+    @Column(unique = true, nullable = false)
     private String empBankAccountNumber;
+
     private String empIfscCode;
 
-    @JdbcTypeCode(Types.BINARY)
-    @Column(name = "emp_bank_pass_book_photo")
+    private LocalDate empJoiningDate;
+
+
+    // =========================
+    // IMAGE / DOCUMENT FIELDS
+    // =========================
+
+    @JdbcTypeCode(SqlTypes.VARBINARY)
+    @Column(name = "emp_bank_pass_book_photo", columnDefinition = "bytea")
     private byte[] empBankPassBookPhoto;
 
-    @JdbcTypeCode(Types.BINARY)
-    @Column(name = "emp_photo")
+    @JdbcTypeCode(SqlTypes.VARBINARY)
+    @Column(name = "emp_photo", columnDefinition = "bytea")
     private byte[] empPhoto;
 
-    @JdbcTypeCode(Types.BINARY)
-    @Column(name = "emp_adhar_photo")
+    @JdbcTypeCode(SqlTypes.VARBINARY)
+    @Column(name = "emp_adhar_photo", columnDefinition = "bytea")
     private byte[] empAdharPhoto;
 
-    @JdbcTypeCode(Types.BINARY)
-    @Column(name = "emp_pan_photo")
+    @JdbcTypeCode(SqlTypes.VARBINARY)
+    @Column(name = "emp_pan_photo", columnDefinition = "bytea")
     private byte[] empPanPhoto;
-
-    public String getEmpPanNumber() {
-        return empPanNumber;
-    }
-
-    public void setEmpPanNumber(String empPanNumber) {
-        this.empPanNumber = empPanNumber;
-    }
-
-    public Long getEmpId() {
-        return empId;
-    }
-
-    public void setEmpId(Long empId) {
-        this.empId = empId;
-    }
-
-    public String getEmpFirstName() {
-        return empFirstName;
-    }
-
-    public void setEmpFirstName(String empFirstName) {
-        this.empFirstName = empFirstName;
-    }
-
-    public String getEmpLastName() {
-        return empLastName;
-    }
-
-    public void setEmpLastName(String empLastName) {
-        this.empLastName = empLastName;
-    }
-
-    public LocalDate getEmpDateOfBirth() {
-        return empDateOfBirth;
-    }
-
-    public void setEmpDateOfBirth(LocalDate empDateOfBirth) {
-        this.empDateOfBirth = empDateOfBirth;
-    }
-
-    public String getEmpMobileNumber() {
-        return empMobileNumber;
-    }
-
-    public void setEmpMobileNumber(String empMobileNumber) {
-        this.empMobileNumber = empMobileNumber;
-    }
-
-    public String getEmpEmergencyNumber() {
-        return empEmergencyNumber;
-    }
-
-    public void setEmpEmergencyNumber(String empEmergencyNumber) {
-        this.empEmergencyNumber = empEmergencyNumber;
-    }
-
-    public String getEmpMailId() {
-        return empMailId;
-    }
-
-    public void setEmpMailId(String empMailId) {
-        this.empMailId = empMailId;
-    }
-
-    public String getEmpAddress() {
-        return empAddress;
-    }
-
-    public void setEmpAddress(String empAddress) {
-        this.empAddress = empAddress;
-    }
-
-    public String getEmpAdharNumber() {
-        return empAdharNumber;
-    }
-
-    public void setEmpAdharNumber(String empAdharNumber) {
-        this.empAdharNumber = empAdharNumber;
-    }
-
-    public String getEmpGender() {
-        return empGender;
-    }
-
-    public void setEmpGender(String empGender) {
-        this.empGender = empGender;
-    }
-
-    public String getEmpBankAccountNumber() {
-        return empBankAccountNumber;
-    }
-
-    public void setEmpBankAccountNumber(String empBankAccountNumber) {
-        this.empBankAccountNumber = empBankAccountNumber;
-    }
-
-    public String getEmpIfscCode() {
-        return empIfscCode;
-    }
-
-    public void setEmpIfscCode(String empIfscCode) {
-        this.empIfscCode = empIfscCode;
-    }
-
-    public byte[] getEmpBankPassBookPhoto() {
-        return empBankPassBookPhoto;
-    }
-
-    public void setEmpBankPassBookPhoto(byte[] empBankPassBookPhoto) {
-        this.empBankPassBookPhoto = empBankPassBookPhoto;
-    }
-
-    public byte[] getEmpPhoto() {
-        return empPhoto;
-    }
-
-    public void setEmpPhoto(byte[] empPhoto) {
-        this.empPhoto = empPhoto;
-    }
-
-    public byte[] getEmpAdharPhoto() {
-        return empAdharPhoto;
-    }
-
-    public void setEmpAdharPhoto(byte[] empAdharPhoto) {
-        this.empAdharPhoto = empAdharPhoto;
-    }
-
-    public byte[] getEmpPanPhoto() {
-        return empPanPhoto;
-    }
-
-    public void setEmpPanPhoto(byte[] empPanPhoto) {
-        this.empPanPhoto = empPanPhoto;
-    }
-
-    public LocalDate getEmpJoiningDate() {
-        return empJoiningDate;
-    }
-
-    public void setEmpJoiningDate(LocalDate empJoiningDate) {
-        this.empJoiningDate = empJoiningDate;
-    }
-
-    private LocalDate empJoiningDate;
 }
