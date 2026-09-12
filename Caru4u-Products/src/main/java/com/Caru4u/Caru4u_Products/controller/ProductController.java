@@ -1,5 +1,6 @@
 package com.Caru4u.Caru4u_Products.controller;
 
+import com.Caru4u.Caru4u_Products.dto.ProductResponse;
 import com.Caru4u.Caru4u_Products.entity.Product;
 import com.Caru4u.Caru4u_Products.services.ProductService;
 import com.Caru4u.Caru4u_Products.services.Products;
@@ -21,8 +22,8 @@ public class ProductController {
     }
 
 
-    @GetMapping("")
-    public ResponseEntity<List<Product>> getProducts(){
+    @GetMapping("/list")
+    public ResponseEntity<List<ProductResponse>> getProducts(){
         return ResponseEntity.ok( products.getProducts());
     }
 }
