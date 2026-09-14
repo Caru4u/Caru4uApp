@@ -5,33 +5,33 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-@Bean
-public WebMvcConfigurer CorsConfig() {
+@Configuration
+public class CorsConfig {
 
-    return new WebMvcConfigurer() {
+    @Bean
+    public WebMvcConfigurer corsConfigurer() {
 
-        @Override
-        public void addCorsMappings(
-                CorsRegistry registry
-        ) {
+        return new WebMvcConfigurer() {
 
-            registry.addMapping("/**")
+            @Override
+            public void addCorsMappings(
+                    CorsRegistry registry) {
 
-                    .allowedOrigins(
-                            "http://localhost:3000"
-                    )
-
-                    .allowedMethods(
-                            "GET",
-                            "POST",
-                            "PUT",
-                            "DELETE",
-                            "OPTIONS"
-                    )
-
-                    .allowedHeaders("*")
-
-                    .allowCredentials(true);
-        }
-    };
+                registry
+                        .addMapping("/api/**")
+                        .allowedOrigins(
+                                "http://localhost:3001"
+                        )
+                        .allowedMethods(
+                                "GET",
+                                "POST",
+                                "PUT",
+                                "DELETE",
+                                "OPTIONS"
+                        )
+                        .allowedHeaders("*")
+                        .allowCredentials(true);
+            }
+        };
+    }
 }
