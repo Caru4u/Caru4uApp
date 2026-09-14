@@ -1,14 +1,9 @@
 package com.Caru4u.Caru4u_Products.controller;
 
 import com.Caru4u.Caru4u_Products.dto.ProductResponse;
-import com.Caru4u.Caru4u_Products.entity.Product;
-import com.Caru4u.Caru4u_Products.services.ProductService;
-import com.Caru4u.Caru4u_Products.services.Products;
+import com.Caru4u.Caru4u_Products.services.ProductsServices;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -17,15 +12,15 @@ import java.util.List;
 @CrossOrigin(origins = "http://localhost:3000")
 public class ProductController {
 
-    private final Products products;
+    private final ProductsServices productsServices;
 
-    public ProductController(Products products) {
-        this.products = products;
+    public ProductController(ProductsServices productsServices) {
+        this.productsServices = productsServices;
     }
 
 
     @GetMapping("/list")
     public ResponseEntity<List<ProductResponse>> getProducts(){
-        return ResponseEntity.ok( products.getProducts());
+        return ResponseEntity.ok( productsServices.getProducts());
     }
 }

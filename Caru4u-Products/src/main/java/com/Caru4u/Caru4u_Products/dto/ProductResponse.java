@@ -2,11 +2,13 @@ package com.Caru4u.Caru4u_Products.dto;
 
 import lombok.*;
 
+import java.io.Serializable;
+
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class ProductResponse {
+public class ProductResponse implements Serializable {
 
     private Long id;
 
@@ -17,4 +19,5 @@ public class ProductResponse {
     private String description;
 
     private String imageUrl;
+    private String bannerImageUrl;
 }

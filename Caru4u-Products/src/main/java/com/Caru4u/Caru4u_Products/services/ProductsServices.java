@@ -1,10 +1,9 @@
 package com.Caru4u.Caru4u_Products.services;
 
 import com.Caru4u.Caru4u_Products.dto.ProductResponse;
-import com.Caru4u.Caru4u_Products.entity.Product;
 
 import java.util.List;
 
-public interface Products {
+public interface ProductsServices {
     public List<ProductResponse> getProducts();
 }
