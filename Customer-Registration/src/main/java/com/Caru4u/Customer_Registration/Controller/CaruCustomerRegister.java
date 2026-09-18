@@ -51,10 +51,10 @@ public class CaruCustomerRegister {
 //
 //    }
 
-    @GetMapping("/apartment-or-villa")
-    public List<ApartmentOrVilla> getAllApartments() {
-        return service.getAll();
-    }
+//    @GetMapping("/apartment-or-villa")
+//    public List<ApartmentOrVilla> getAllApartments() {
+//        return service.getAll();
+//    }
 
 
 }
