@@ -6,9 +6,11 @@ import com.Caru4u.Customer_Registration.Model.ApartmentOrVilla;
 import com.Caru4u.Customer_Registration.Model.CustomerRegistor;
 import com.Caru4u.Customer_Registration.Utails.Constants;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class CustomerRegistorServiceimpl implements CustomerRegistorService {
@@ -19,6 +21,13 @@ public class CustomerRegistorServiceimpl implements CustomerRegistorService {
     @Autowired
     private ApartmentOrVillaRepository apartmentOrVillaRepository;
 
+
+    private final PasswordEncoder passwordEncoder;
+
+    public CustomerRegistorServiceimpl(PasswordEncoder passwordEncoder) {
+        this.passwordEncoder = passwordEncoder;
+    }
+
     @Override
     public String registerCustomer(CustomerRegistor customer) {
         if (customerRegistorRepository.existsByMobileNumber(customer.getMobileNumber())) {
@@ -28,14 +37,32 @@ public class CustomerRegistorServiceimpl implements CustomerRegistorService {
             return Constants.Email_already_registered;
         }
 
-        // Normal password validation (no hashing)
-        String password = customer.getPassword();
-        if (!isValidPassword(password)) {
+        // 1. Get raw password entered by customer
+        String rawPassword = customer.getPassword();
+// 2. Validate password rules
+        if (!isValidPassword(rawPassword)) {
+
             return Constants.Password_validation_message;
         }
+        String encodedPassword =
+                passwordEncoder.encode(
+                        rawPassword
+                );
 
-        // Save directly without hashing (not recommended for production)
-        customerRegistorRepository.save(customer);
+
+        // Replace raw password with BCrypt hash
+        customer.setPassword(
+                encodedPassword
+        );
+
+
+        // ---------------------------------------
+        // Save customer
+        // ---------------------------------------
+
+        customerRegistorRepository.save(
+                customer
+        );
         return Constants.Customer_Regilyster_succesful;
     }
 

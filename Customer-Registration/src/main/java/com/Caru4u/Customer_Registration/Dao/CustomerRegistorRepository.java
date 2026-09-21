@@ -16,4 +16,10 @@ public interface CustomerRegistorRepository extends JpaRepository<CustomerRegist
 
     @Query(value = "SELECT mailid FROM Customer_Registor WHERE customer_id = :id", nativeQuery = true)
     String getCustomerEmail(Long id);
+
+    Optional<CustomerRegistor> findByMailidIgnoreCase(
+            String mailid
+    );
+
+
 }

@@ -1,6 +1,7 @@
 package com.Caru4u.Customer_Registration.Controller;
 
 import com.Caru4u.Customer_Registration.Model.*;
+import com.Caru4u.Customer_Registration.Services.AuthenticationService;
 import com.Caru4u.Customer_Registration.Services.CustomerLoginService;
 import com.Caru4u.Customer_Registration.Services.CustomerRegistorService;
 import com.Caru4u.Customer_Registration.Services.OtpService;
@@ -22,6 +23,9 @@ public class CaruCustomerRegister {
    private CustomerLoginService customerLoginService;
 
    @Autowired
+    private AuthenticationService authenticationService;
+
+   @Autowired
    private OtpService otpService;
 
 
@@ -34,9 +38,9 @@ public class CaruCustomerRegister {
         return ResponseEntity.ok(result);
     }
     @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody LoginRequest loginRequest) {
-        String result = customerLoginService.loginCustomer(loginRequest.getIdentifier(), loginRequest.getPassword());
-        return ResponseEntity.ok(result);
+    public ResponseEntity<LoginResponse> login(@RequestBody LoginRequest loginRequest) {
+//        String result = customerLoginService.loginCustomer(loginRequest.getIdentifier(), loginRequest.getPassword());
+        return ResponseEntity.ok(authenticationService.login(loginRequest));
     }
 
 //    @PostMapping("/send-mobile-otp")

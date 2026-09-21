@@ -1,4 +1,4 @@
-package com.caru4u.Caru4u_Cart_Service.service;
+package com.Caru4u.Caru4u_Products.services;
 
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -24,17 +24,18 @@ public class CurrentCustomer {
             );
         }
 
+        String customerId =
+                authentication.getName();
+
         try {
 
-            return Long.valueOf(
-                    authentication.getName()
-            );
+            return Long.valueOf(customerId);
 
         } catch (NumberFormatException e) {
 
             throw new IllegalStateException(
-                    "Invalid customerId in authentication: "
-                            + authentication.getName()
+                    "Authenticated principal does not contain " +
+                            "a valid customerId: " + customerId
             );
         }
     }
