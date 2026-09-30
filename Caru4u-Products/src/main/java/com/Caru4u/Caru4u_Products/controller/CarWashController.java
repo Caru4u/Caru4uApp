@@ -2,6 +2,10 @@ package com.Caru4u.Caru4u_Products.controller;
 
 import com.Caru4u.Caru4u_Products.dto.CarWashPlanResponse;
 import com.Caru4u.Caru4u_Products.dto.PackagePriceResponse;
+import com.Caru4u.Caru4u_Products.services.CarWash;
+import com.Caru4u.Caru4u_Products.services.CarWashService;
+import com.Caru4u.Caru4u_Products.services.PackagePriceService;
+import com.Caru4u.Caru4u_Products.dto.PackagePriceResponse;
 import com.Caru4u.Caru4u_Products.dto.PackagePriceUpdateRequest;
 import com.Caru4u.Caru4u_Products.dto.ProductResponse;
 import com.Caru4u.Caru4u_Products.services.CarWashServices;
@@ -18,6 +22,11 @@ public class CarWashController {
 
     public CarWashController(CarWashServices carWashServices) {
         this.carWashServices = carWashServices;
+    private  final PackagePriceService packagePriceService;
+
+    public CarWashController(CarWash carWash, PackagePriceService packagePriceService) {
+        this.carWash = carWash;
+        this.packagePriceService = packagePriceService;
     }
 
     @GetMapping("/plans")
@@ -36,4 +45,21 @@ public class CarWashController {
          return ResponseEntity.ok("Package Price Deleted Successfully");
     }
 
+
+    @GetMapping("/validate")
+    public ResponseEntity<PackagePriceResponse> validatePackagePrice(
+            @RequestParam Long productId,
+            @RequestParam Long packageId,
+            @RequestParam Long vehicleTypeId,
+            @RequestParam Long frequencyId) {
+
+        return ResponseEntity.ok(
+                packagePriceService.validatePackagePrice(
+                        productId,
+                        packageId,
+                        vehicleTypeId,
+                        frequencyId
+                )
+        );
+    }
 }
