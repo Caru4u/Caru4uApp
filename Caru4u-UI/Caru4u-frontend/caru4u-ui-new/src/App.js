@@ -1,22 +1,45 @@
 import React from "react";
 
-import Header from "./components/Header";
-import Hero from "./components/Hero";
-import Products from "./components/Products";
-import HowItWorks from "./components/HowItWorks";
-import Footer from "./components/Footer";
+import {
+  BrowserRouter,
+  Routes,
+  Route
+} from "react-router-dom";
 
-import "./styles/Home.css";
+import Home from "./pages/Home/Home";
+import CarWashPlans from "./pages/CarWashPlans/CarWashPlans";
+import Booking from "./pages/Booking/Booking";
+import Login from "./pages/Login/Login";
 
 function App() {
   return (
-    <>
-      <Header />
-      <Hero />
-      <Products />
-      <HowItWorks />
-      <Footer />
-    </>
+    <BrowserRouter>
+
+      <Routes>
+
+        <Route
+          path="/"
+          element={<Home />}
+        />
+
+        <Route
+          path="/car-wash"
+          element={<CarWashPlans />}
+        />
+
+        <Route
+          path="/booking"
+          element={<Booking />}
+        />
+
+        <Route
+          path="/login"
+          element={<Login />}
+        />
+
+      </Routes>
+
+    </BrowserRouter>
   );
 }
 

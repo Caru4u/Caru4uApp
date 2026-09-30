@@ -15,6 +15,8 @@ public interface PackagePriceRepository
     findByVehicleType_CodeAndActiveTrueOrderByWashPackage_DisplayOrderAsc(
             String vehicleTypeCode
     );
+
+    List<PackagePrice> findByActiveTrue();
     @Query("""
         SELECT pp
         FROM PackagePrice pp
