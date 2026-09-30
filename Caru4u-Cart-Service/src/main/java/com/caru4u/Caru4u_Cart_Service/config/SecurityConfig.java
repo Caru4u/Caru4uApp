@@ -29,35 +29,44 @@ public class SecurityConfig {
 
         http
 
-                // REST API - disable CSRF
-                .csrf(csrf -> csrf.disable())
+                // Disable CSRF for REST API
+                .csrf(csrf ->
+                        csrf.disable()
+                )
 
-                // JWT application should not create HTTP sessions
+                // Enable CORS
+                .cors(cors -> {
+                })
+
+                // Stateless application
                 .sessionManagement(session ->
                         session.sessionCreationPolicy(
                                 SessionCreationPolicy.STATELESS
                         )
                 )
 
-                // Authorization rules
+                // Authorization
                 .authorizeHttpRequests(auth -> auth
 
-                        // Example public endpoints
+                        // Actuator
                         .requestMatchers(
                                 "/actuator/**"
-                        ).permitAll()
+                        )
+                        .permitAll()
 
-                        // Cart APIs require login
+                        // TEMPORARY:
+                        // Allow Cart API without JWT
                         .requestMatchers(
                                 "/api/cart/**"
-                        ).authenticated()
+                        )
+                        .permitAll()
 
                         // Everything else
-                        .anyRequest().permitAll()
+                        .anyRequest()
+                        .permitAll()
                 )
 
-                // IMPORTANT
-                // Run JWT filter before Spring's username/password filter
+                // JWT Filter
                 .addFilterBefore(
                         jwtAuthenticationFilter,
                         UsernamePasswordAuthenticationFilter.class

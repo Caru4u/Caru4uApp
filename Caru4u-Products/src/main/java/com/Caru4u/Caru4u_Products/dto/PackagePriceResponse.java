@@ -35,7 +35,6 @@ public class PackagePriceResponse {
 
     private Boolean active;
 
-    // Add these
     private LocalDate validFrom;
     private LocalDate validTo;
 }

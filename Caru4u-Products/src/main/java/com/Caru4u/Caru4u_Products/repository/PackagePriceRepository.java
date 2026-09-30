@@ -13,7 +13,7 @@ public interface PackagePriceRepository
 
     List<PackagePrice>
     findByVehicleType_CodeAndActiveTrueOrderByWashPackage_DisplayOrderAsc(
-            String vehicleTypeCode
+            String vehicleCode
     );
 
     List<PackagePrice> findByActiveTrue();
@@ -38,5 +38,12 @@ public interface PackagePriceRepository
             @Param("packageId") Long packageId,
             @Param("vehicleTypeId") Long vehicleTypeId,
             @Param("frequencyId") Long frequencyId
+    );
+
+    Optional<PackagePrice>
+    findByWashPackage_IdAndVehicleType_IdAndFrequency_IdAndActiveTrue(
+            Long packageId,
+            Long vehicleTypeId,
+            Long frequencyId
     );
 }
