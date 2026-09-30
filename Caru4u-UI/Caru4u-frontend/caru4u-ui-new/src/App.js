@@ -10,9 +10,12 @@ import Home from "./pages/Home/Home";
 import CarWashPlans from "./pages/CarWashPlans/CarWashPlans";
 import Booking from "./pages/Booking/Booking";
 import Login from "./pages/Login/Login";
+import CartPage from "./pages/Cart/CartPage";
 
 function App() {
+
   return (
+
     <BrowserRouter>
 
       <Routes>
@@ -37,9 +40,15 @@ function App() {
           element={<Login />}
         />
 
+        <Route
+          path="/cart"
+          element={<CartPage />}
+        />
+
       </Routes>
 
     </BrowserRouter>
+
   );
 }
 

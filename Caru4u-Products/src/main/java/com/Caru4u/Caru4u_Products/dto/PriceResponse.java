@@ -1,6 +1,5 @@
 package com.Caru4u.Caru4u_Products.dto;
 
-import jdk.jfr.DataAmount;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -14,7 +13,14 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 @AllArgsConstructor
 public class PriceResponse implements Serializable {
+
+    private Long frequencyId;
+
+    private Long vehicleTypeId;
+
     private String frequency;
+
     private String description;
+
     private BigDecimal price;
 }

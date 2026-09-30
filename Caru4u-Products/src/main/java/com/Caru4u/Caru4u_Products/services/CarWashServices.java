@@ -11,4 +11,11 @@ public interface CarWashServices {
 
     void deletePrice(Long id);
 
+    PackagePriceResponse validatePrice(
+            Long productId,
+            Long packageId,
+            Long vehicleTypeId,
+            Long frequencyId
+    );
+
     }

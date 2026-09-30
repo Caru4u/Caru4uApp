@@ -4,48 +4,103 @@ import com.caru4u.Caru4u_Cart_Service.model.AddToCartRequest;
 import com.caru4u.Caru4u_Cart_Service.model.CartResponse;
 import com.caru4u.Caru4u_Cart_Service.model.UpdateCartIteamRequest;
 import com.caru4u.Caru4u_Cart_Service.service.CartServices;
-import com.caru4u.Caru4u_Cart_Service.service.CurrentCustomer;
+
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping("/api/cart")
 @RequiredArgsConstructor
 public class CartController {
+
     private final CartServices cartService;
 
-    private final CurrentCustomer currentCustomer;
 
     /*
-     * Get logged-in customer's cart
+     * =========================================================
+     * GET CART
+     * =========================================================
+     *
+     * GET:
+     * /api/cart?customerId=1
      */
     @GetMapping
-    public ResponseEntity<CartResponse> getCart() {
+    public ResponseEntity<CartResponse> getCart(
+            @RequestParam Long customerId
+    ) {
 
-        Long customerId =
-                currentCustomer.getCustomerId();
+        System.out.println(
+                "GET CART - customerId = "
+                        + customerId
+        );
+
+        CartResponse response =
+                cartService.getCart(
+                        customerId
+                );
 
         return ResponseEntity.ok(
-                cartService.getCart(customerId)
+                response
         );
     }
 
+
     /*
-     * Add service to cart
+     * =========================================================
+     * ADD ITEM TO CART
+     * =========================================================
+     *
+     * POST:
+     * /api/cart/items?customerId=1
      */
     @PostMapping("/items")
-    public ResponseEntity<CartResponse> addToCart(@RequestParam Long customerId,
+    public ResponseEntity<CartResponse> addToCart(
+
+            @RequestParam Long customerId,
 
             @Valid
             @RequestBody
-            AddToCartRequest request) {
+            AddToCartRequest request
+    ) {
 
-//        Long customerId =
-//                currentCustomer.getCustomerId();
+        System.out.println(
+                "========== ADD TO CART =========="
+        );
+
+        System.out.println(
+                "customerId = "
+                        + customerId
+        );
+
+        System.out.println(
+                "productId = "
+                        + request.getProductId()
+        );
+
+        System.out.println(
+                "packageId = "
+                        + request.getPackageId()
+        );
+
+        System.out.println(
+                "vehicleTypeId = "
+                        + request.getVehicleTypeId()
+        );
+
+        System.out.println(
+                "frequencyId = "
+                        + request.getFrequencyId()
+        );
+
+        System.out.println(
+                "quantity = "
+                        + request.getQuantity()
+        );
+
 
         CartResponse response =
                 cartService.addToCart(
@@ -53,61 +108,133 @@ public class CartController {
                         request
                 );
 
-        return ResponseEntity.ok(response);
+
+        return ResponseEntity.ok(
+                response
+        );
     }
 
+
     /*
-     * Update quantity
+     * =========================================================
+     * UPDATE QUANTITY
+     * =========================================================
+     *
+     * PUT:
+     * /api/cart/items/{itemId}?customerId=1
      */
     @PutMapping("/items/{itemId}")
     public ResponseEntity<CartResponse> updateQuantity(
 
-            @PathVariable
-            Long itemId,
+            @PathVariable Long itemId,
+
+            @RequestParam Long customerId,
 
             @Valid
             @RequestBody
-            UpdateCartIteamRequest request) {
+            UpdateCartIteamRequest request
+    ) {
 
-        Long customerId =
-                currentCustomer.getCustomerId();
+        System.out.println(
+                "UPDATE CART ITEM"
+        );
 
-        return ResponseEntity.ok(
+        System.out.println(
+                "customerId = "
+                        + customerId
+        );
+
+        System.out.println(
+                "itemId = "
+                        + itemId
+        );
+
+
+        CartResponse response =
                 cartService.updateQuantity(
                         customerId,
                         itemId,
                         request
-                )
+                );
+
+
+        return ResponseEntity.ok(
+                response
         );
     }
 
+
     /*
-     * Remove one cart item
+     * =========================================================
+     * REMOVE ONE ITEM
+     * =========================================================
+     *
+     * DELETE:
+     * /api/cart/items/{itemId}?customerId=1
      */
     @DeleteMapping("/items/{itemId}")
-    public ResponseEntity<CartResponse> removeItem(@PathVariable Long itemId) {
+    public ResponseEntity<CartResponse> removeItem(
 
-        Long customerId = currentCustomer.getCustomerId();
+            @PathVariable Long itemId,
 
-        return ResponseEntity.ok(
+            @RequestParam Long customerId
+    ) {
+
+        System.out.println(
+                "REMOVE CART ITEM"
+        );
+
+        System.out.println(
+                "customerId = "
+                        + customerId
+        );
+
+        System.out.println(
+                "itemId = "
+                        + itemId
+        );
+
+
+        CartResponse response =
                 cartService.removeItem(
                         customerId,
                         itemId
-                )
+                );
+
+
+        return ResponseEntity.ok(
+                response
         );
     }
 
+
     /*
-     * Clear complete cart
+     * =========================================================
+     * CLEAR COMPLETE CART
+     * =========================================================
+     *
+     * DELETE:
+     * /api/cart?customerId=1
      */
     @DeleteMapping
-    public ResponseEntity<Void> clearCart() {
+    public ResponseEntity<Void> clearCart(
 
-        Long customerId =
-                currentCustomer.getCustomerId();
+            @RequestParam Long customerId
+    ) {
 
-        cartService.clearCart(customerId);
+        System.out.println(
+                "CLEAR CART - customerId = "
+                        + customerId
+        );
 
-        return ResponseEntity.noContent().build();
+
+        cartService.clearCart(
+                customerId
+        );
+
+
+        return ResponseEntity
+                .noContent()
+                .build();
     }
 }
