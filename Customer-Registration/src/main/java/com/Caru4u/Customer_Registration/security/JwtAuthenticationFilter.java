@@ -1,34 +1,26 @@
-package com.caru4u.Caru4u_Cart_Service.service;
+package com.Caru4u.Customer_Registration.security;
 
-import com.caru4u.Caru4u_Cart_Service.Security.CustomerPrincipal;
-import com.caru4u.Caru4u_Cart_Service.config.JwtService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-import lombok.RequiredArgsConstructor;
-
-import org.springframework.security.authentication
-        .UsernamePasswordAuthenticationToken;
-
-import org.springframework.security.core.context
-        .SecurityContextHolder;
-
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
-
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 import java.util.Collections;
 
 @Component
-@RequiredArgsConstructor
-public class JwtAuthenticationFilter
-        extends OncePerRequestFilter {
+public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private final JwtService jwtService;
 
+    public JwtAuthenticationFilter(JwtService jwtService) {
+        this.jwtService = jwtService;
+    }
 
     @Override
     protected void doFilterInternal(
@@ -40,26 +32,16 @@ public class JwtAuthenticationFilter
         String authorizationHeader =
                 request.getHeader("Authorization");
 
-
-        // -----------------------------------------
-        // No Bearer token
-        // -----------------------------------------
-
+        // No JWT present
         if (authorizationHeader == null ||
                 !authorizationHeader.startsWith("Bearer ")) {
 
-            filterChain.doFilter(
-                    request,
-                    response
-            );
-
+            filterChain.doFilter(request, response);
             return;
         }
 
-
         String token =
                 authorizationHeader.substring(7);
-
 
         try {
 
@@ -69,13 +51,11 @@ public class JwtAuthenticationFilter
             String email =
                     jwtService.extractEmail(token);
 
-
             CustomerPrincipal principal =
                     new CustomerPrincipal(
                             customerId,
                             email
                     );
-
 
             UsernamePasswordAuthenticationToken authentication =
                     new UsernamePasswordAuthenticationToken(
@@ -84,25 +64,20 @@ public class JwtAuthenticationFilter
                             Collections.emptyList()
                     );
 
-
             SecurityContextHolder
                     .getContext()
                     .setAuthentication(authentication);
 
-        } catch (Exception exception) {
-
-            SecurityContextHolder.clearContext();
+        } catch (Exception e) {
 
             System.out.println(
                     "JWT validation failed: "
-                            + exception.getMessage()
+                            + e.getMessage()
             );
+
+            SecurityContextHolder.clearContext();
         }
 
-
-        filterChain.doFilter(
-                request,
-                response
-        );
+        filterChain.doFilter(request, response);
     }
 }

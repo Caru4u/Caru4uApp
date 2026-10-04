@@ -3,104 +3,92 @@ package com.caru4u.Caru4u_Cart_Service.Controller;
 import com.caru4u.Caru4u_Cart_Service.model.AddToCartRequest;
 import com.caru4u.Caru4u_Cart_Service.model.CartResponse;
 import com.caru4u.Caru4u_Cart_Service.model.UpdateCartIteamRequest;
+
+import com.caru4u.Caru4u_Cart_Service.Security.CustomerPrincipal;
+
 import com.caru4u.Caru4u_Cart_Service.service.CartServices;
 
 import jakarta.validation.Valid;
+
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
-@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping("/api/cart")
 @RequiredArgsConstructor
+@CrossOrigin(origins = "http://localhost:3000")
 public class CartController {
 
     private final CartServices cartService;
 
 
-    /*
-     * =========================================================
-     * GET CART
-     * =========================================================
-     *
-     * GET:
-     * /api/cart?customerId=1
-     */
+    // =========================================================
+    // 1. GET LOGGED-IN CUSTOMER CART
+    // =========================================================
+    //
+    // GET http://localhost:8086/api/cart
+    //
+    // Authorization:
+    // Bearer <JWT>
+    //
+    // customerId comes from JWT.
+    // =========================================================
+
     @GetMapping
     public ResponseEntity<CartResponse> getCart(
-            @RequestParam Long customerId
+            Authentication authentication
     ) {
 
-        System.out.println(
-                "GET CART - customerId = "
-                        + customerId
-        );
+        CustomerPrincipal principal =
+                getPrincipal(authentication);
+
+        Long customerId =
+                principal.getCustomerId();
 
         CartResponse response =
-                cartService.getCart(
-                        customerId
-                );
+                cartService.getCart(customerId);
 
-        return ResponseEntity.ok(
-                response
-        );
+        return ResponseEntity.ok(response);
     }
 
 
-    /*
-     * =========================================================
-     * ADD ITEM TO CART
-     * =========================================================
-     *
-     * POST:
-     * /api/cart/items?customerId=1
-     */
+    // =========================================================
+    // 2. ADD ITEM TO CART
+    // =========================================================
+    //
+    // POST http://localhost:8086/api/cart/items
+    //
+    // IMPORTANT:
+    //
+    // Your service method is:
+    //
+    // addToCart(Long customerId, AddToCartRequest request)
+    //
+    // NOT:
+    //
+    // addItem(...)
+    //
+    // =========================================================
+
     @PostMapping("/items")
     public ResponseEntity<CartResponse> addToCart(
 
-            @RequestParam Long customerId,
+            Authentication authentication,
 
             @Valid
             @RequestBody
             AddToCartRequest request
+
     ) {
 
-        System.out.println(
-                "========== ADD TO CART =========="
-        );
+        CustomerPrincipal principal =
+                getPrincipal(authentication);
 
-        System.out.println(
-                "customerId = "
-                        + customerId
-        );
-
-        System.out.println(
-                "productId = "
-                        + request.getProductId()
-        );
-
-        System.out.println(
-                "packageId = "
-                        + request.getPackageId()
-        );
-
-        System.out.println(
-                "vehicleTypeId = "
-                        + request.getVehicleTypeId()
-        );
-
-        System.out.println(
-                "frequencyId = "
-                        + request.getFrequencyId()
-        );
-
-        System.out.println(
-                "quantity = "
-                        + request.getQuantity()
-        );
-
+        Long customerId =
+                principal.getCustomerId();
 
         CartResponse response =
                 cartService.addToCart(
@@ -108,133 +96,183 @@ public class CartController {
                         request
                 );
 
-
-        return ResponseEntity.ok(
-                response
-        );
+        return ResponseEntity.ok(response);
     }
 
 
-    /*
-     * =========================================================
-     * UPDATE QUANTITY
-     * =========================================================
-     *
-     * PUT:
-     * /api/cart/items/{itemId}?customerId=1
-     */
-    @PutMapping("/items/{itemId}")
+    // =========================================================
+    // 3. UPDATE CART ITEM QUANTITY
+    // =========================================================
+    //
+    // PUT
+    // /api/cart/items/{cartItemId}
+    //
+    // =========================================================
+
+    @PutMapping("/items/{cartItemId}")
     public ResponseEntity<CartResponse> updateQuantity(
 
-            @PathVariable Long itemId,
+            Authentication authentication,
 
-            @RequestParam Long customerId,
+            @PathVariable
+            Long cartItemId,
 
             @Valid
             @RequestBody
             UpdateCartIteamRequest request
+
     ) {
 
-        System.out.println(
-                "UPDATE CART ITEM"
-        );
+        CustomerPrincipal principal =
+                getPrincipal(authentication);
 
-        System.out.println(
-                "customerId = "
-                        + customerId
-        );
-
-        System.out.println(
-                "itemId = "
-                        + itemId
-        );
-
+        Long customerId =
+                principal.getCustomerId();
 
         CartResponse response =
                 cartService.updateQuantity(
                         customerId,
-                        itemId,
+                        cartItemId,
                         request
                 );
 
-
-        return ResponseEntity.ok(
-                response
-        );
+        return ResponseEntity.ok(response);
     }
 
 
-    /*
-     * =========================================================
-     * REMOVE ONE ITEM
-     * =========================================================
-     *
-     * DELETE:
-     * /api/cart/items/{itemId}?customerId=1
-     */
-    @DeleteMapping("/items/{itemId}")
+    // =========================================================
+    // 4. REMOVE ITEM FROM CART
+    // =========================================================
+    //
+    // DELETE
+    // /api/cart/items/{cartItemId}
+    //
+    // =========================================================
+
+    @DeleteMapping("/items/{cartItemId}")
     public ResponseEntity<CartResponse> removeItem(
 
-            @PathVariable Long itemId,
+            Authentication authentication,
 
-            @RequestParam Long customerId
+            @PathVariable
+            Long cartItemId
+
     ) {
 
-        System.out.println(
-                "REMOVE CART ITEM"
-        );
+        CustomerPrincipal principal =
+                getPrincipal(authentication);
 
-        System.out.println(
-                "customerId = "
-                        + customerId
-        );
-
-        System.out.println(
-                "itemId = "
-                        + itemId
-        );
-
+        Long customerId =
+                principal.getCustomerId();
 
         CartResponse response =
                 cartService.removeItem(
                         customerId,
-                        itemId
+                        cartItemId
                 );
 
-
-        return ResponseEntity.ok(
-                response
-        );
+        return ResponseEntity.ok(response);
     }
 
 
-    /*
-     * =========================================================
-     * CLEAR COMPLETE CART
-     * =========================================================
-     *
-     * DELETE:
-     * /api/cart?customerId=1
-     */
+    // =========================================================
+    // 5. CLEAR CART
+    // =========================================================
+    //
+    // DELETE
+    // http://localhost:8086/api/cart
+    //
+    // This API is called by Checkout Service
+    // after order placement.
+    //
+    // =========================================================
+
     @DeleteMapping
     public ResponseEntity<Void> clearCart(
-
-            @RequestParam Long customerId
+            Authentication authentication
     ) {
 
-        System.out.println(
-                "CLEAR CART - customerId = "
-                        + customerId
-        );
+        CustomerPrincipal principal =
+                getPrincipal(authentication);
 
+        Long customerId =
+                principal.getCustomerId();
 
-        cartService.clearCart(
-                customerId
-        );
-
+        cartService.clearCart(customerId);
 
         return ResponseEntity
                 .noContent()
                 .build();
+    }
+
+
+    // =========================================================
+    // COMMON METHOD
+    // GET LOGGED-IN CUSTOMER FROM SPRING SECURITY
+    // =========================================================
+
+    private CustomerPrincipal getPrincipal(
+            Authentication authentication
+    ) {
+
+        // -----------------------------------------
+        // Authentication missing
+        // -----------------------------------------
+
+        if (authentication == null) {
+
+            throw new SecurityException(
+                    "Customer is not authenticated"
+            );
+        }
+
+
+        // -----------------------------------------
+        // Authentication failed
+        // -----------------------------------------
+
+        if (!authentication.isAuthenticated()) {
+
+            throw new SecurityException(
+                    "Customer is not authenticated"
+            );
+        }
+
+
+        // -----------------------------------------
+        // Get principal
+        // -----------------------------------------
+
+        Object principalObject =
+                authentication.getPrincipal();
+
+
+        // -----------------------------------------
+        // Make sure our JWT filter created
+        // CustomerPrincipal
+        // -----------------------------------------
+
+        if (!(principalObject
+                instanceof CustomerPrincipal principal)) {
+
+            throw new SecurityException(
+                    "Invalid authenticated customer"
+            );
+        }
+
+
+        // -----------------------------------------
+        // customerId must exist
+        // -----------------------------------------
+
+        if (principal.getCustomerId() == null) {
+
+            throw new SecurityException(
+                    "Customer ID not found in JWT"
+            );
+        }
+
+
+        return principal;
     }
 }
