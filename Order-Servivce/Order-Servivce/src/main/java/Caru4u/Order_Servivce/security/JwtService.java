@@ -1,4 +1,4 @@
-package com.caru4u.Caru4u_Cart_Service.config;
+package Caru4u.Order_Servivce.security;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -16,7 +16,6 @@ public class JwtService {
     @Value("${jwt.secret}")
     private String secret;
 
-
     private SecretKey getSigningKey() {
 
         byte[] keyBytes =
@@ -28,7 +27,8 @@ public class JwtService {
 
     public Claims extractClaims(String token) {
 
-        return Jwts.parser()
+        return Jwts
+                .parser()
                 .verifyWith(getSigningKey())
                 .build()
                 .parseSignedClaims(token)
@@ -46,12 +46,6 @@ public class JwtService {
                         "customerId",
                         Number.class
                 );
-
-        if (customerId == null) {
-            throw new IllegalArgumentException(
-                    "customerId not found in JWT"
-            );
-        }
 
         return customerId.longValue();
     }

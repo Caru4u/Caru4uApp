@@ -15,57 +15,78 @@ function PlanCard({ packageData, vehicleType }) {
       : null
   );
 
-  const [addingToCart, setAddingToCart] = useState(false);
+  const [addingToCart, setAddingToCart] =
+    useState(false);
 
-  /*
-   * GET STARTED
-   *
-   * 1. Get selected package
-   * 2. Get selected frequency
-   * 3. Call Cart Service
-   * 4. Save item
-   * 5. Redirect to Cart Page
-   */
+
+  // =====================================================
+  // GET STARTED / ADD TO CART
+  // =====================================================
+
   const handleGetStarted = async () => {
 
     if (!selectedPrice) {
+
       alert("Please select a frequency.");
+
       return;
     }
+
 
     try {
 
       setAddingToCart(true);
 
-      /*
-       * TEMPORARY CUSTOMER ID
-       *
-       * We are using customerId = 1
-       * while testing without full JWT integration.
-       *
-       * Later this should come from logged-in customer.
-       */
-      const customerId = 1;
+
+      // =================================================
+      // GET JWT FROM LOCAL STORAGE
+      // =================================================
+
+      const token =
+        localStorage.getItem("token");
+
+
+      console.log(
+        "JWT TOKEN:",
+        token
+      );
+
+
+      // Customer must login first
+      if (!token) {
+
+        alert(
+          "Please login before adding service to cart."
+        );
+
+        navigate("/login");
+
+        return;
+      }
+
 
       console.log(
         "PACKAGE DATA:",
         packageData
       );
 
+
       console.log(
         "VEHICLE TYPE:",
         vehicleType
       );
+
 
       console.log(
         "SELECTED PRICE:",
         selectedPrice
       );
 
-      /*
-       * Build request expected by
-       * AddToCartRequest in Cart Service.
-       */
+
+      // =================================================
+      // CREATE CART REQUEST
+      // =================================================
+
       const cartRequest = {
 
         productId:
@@ -83,37 +104,59 @@ function PlanCard({ packageData, vehicleType }) {
         quantity: 1
       };
 
+
       console.log(
         "ADD TO CART REQUEST:",
         cartRequest
       );
 
-      /*
-       * Cart Service:
-       *
-       * POST
-       * localhost:8080/api/cart/items?customerId=1
-       */
-      const response = await axios.post(
-        "http://localhost:8086/api/cart/items",
-        cartRequest,
-        {
-          params: {
-            customerId: customerId
+
+      // =================================================
+      // CALL CART SERVICE
+      // =================================================
+      //
+      // IMPORTANT:
+      //
+      // No customerId query parameter.
+      //
+      // customerId comes from JWT.
+      //
+      // =================================================
+
+      const response =
+        await axios.post(
+
+          "http://localhost:8086/api/cart/items",
+
+          cartRequest,
+
+          {
+            headers: {
+
+              Authorization:
+                `Bearer ${token}`,
+
+              "Content-Type":
+                "application/json"
+
+            }
           }
-        }
-      );
+
+        );
+
 
       console.log(
         "ADD TO CART RESPONSE:",
         response.data
       );
 
-      /*
-       * Only go to Cart Page
-       * when backend call succeeds.
-       */
+
+      // =================================================
+      // SUCCESS
+      // =================================================
+
       navigate("/cart");
+
 
     } catch (error) {
 
@@ -122,12 +165,14 @@ function PlanCard({ packageData, vehicleType }) {
         error
       );
 
+
       if (error.response) {
 
         console.error(
           "STATUS:",
           error.response.status
         );
+
 
         console.error(
           "BACKEND RESPONSE:",
@@ -136,9 +181,35 @@ function PlanCard({ packageData, vehicleType }) {
 
       }
 
+
+      // ===============================================
+      // Unauthorized / Forbidden
+      // ===============================================
+
+      if (
+        error.response?.status === 401 ||
+        error.response?.status === 403
+      ) {
+
+        alert(
+          "Your login session is invalid. Please login again."
+        );
+
+        navigate("/login");
+
+        return;
+      }
+
+
+      // ===============================================
+      // Other backend errors
+      // ===============================================
+
       alert(
+        error.response?.data?.message ||
         "Unable to add service to cart. Please try again."
       );
+
 
     } finally {
 
@@ -148,9 +219,10 @@ function PlanCard({ packageData, vehicleType }) {
   };
 
 
-  /*
-   * Package icon
-   */
+  // =====================================================
+  // PACKAGE ICON
+  // =====================================================
+
   const getPackageIcon = () => {
 
     switch (
@@ -182,7 +254,9 @@ function PlanCard({ packageData, vehicleType }) {
       }
     >
 
+      {/* ============================================= */}
       {/* MOST POPULAR */}
+      {/* ============================================= */}
 
       {packageData.mostPopular && (
 
@@ -193,13 +267,16 @@ function PlanCard({ packageData, vehicleType }) {
       )}
 
 
+      {/* ============================================= */}
       {/* PLAN HEADER */}
+      {/* ============================================= */}
 
       <div className="plan-header">
 
         <div className="plan-icon">
           {getPackageIcon()}
         </div>
+
 
         <div>
 
@@ -216,7 +293,9 @@ function PlanCard({ packageData, vehicleType }) {
       </div>
 
 
+      {/* ============================================= */}
       {/* PRICE OPTIONS */}
+      {/* ============================================= */}
 
       <div className="price-options">
 
@@ -227,6 +306,7 @@ function PlanCard({ packageData, vehicleType }) {
               selectedPrice?.frequency ===
               price.frequency;
 
+
             return (
 
               <div
@@ -235,11 +315,13 @@ function PlanCard({ packageData, vehicleType }) {
                   price.frequency ||
                   index
                 }
+
                 className={
                   isSelected
                     ? "price-row selected-price"
                     : "price-row"
                 }
+
                 onClick={() =>
                   setSelectedPrice(price)
                 }
@@ -282,7 +364,9 @@ function PlanCard({ packageData, vehicleType }) {
       </div>
 
 
+      {/* ============================================= */}
       {/* FEATURES */}
+      {/* ============================================= */}
 
       <div className="features">
 
@@ -310,21 +394,28 @@ function PlanCard({ packageData, vehicleType }) {
       </div>
 
 
+      {/* ============================================= */}
       {/* GET STARTED */}
+      {/* ============================================= */}
 
       <button
+
         className="get-started-btn"
+
         onClick={handleGetStarted}
+
         disabled={
           addingToCart ||
           !selectedPrice
         }
+
       >
 
         {addingToCart
           ? "Adding..."
           : "Get Started"
         }
+
 
         {!addingToCart && (
           <span>→</span>
@@ -333,7 +424,9 @@ function PlanCard({ packageData, vehicleType }) {
       </button>
 
 
+      {/* ============================================= */}
       {/* BEST VALUE */}
+      {/* ============================================= */}
 
       {packageData.mostPopular && (
 

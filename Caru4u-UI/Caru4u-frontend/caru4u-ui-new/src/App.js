@@ -6,11 +6,24 @@ import {
   Route
 } from "react-router-dom";
 
-import Home from "./pages/Home/Home";
-import CarWashPlans from "./pages/CarWashPlans/CarWashPlans";
-import Booking from "./pages/Booking/Booking";
-import Login from "./pages/Login/Login";
-import CartPage from "./pages/Cart/CartPage";
+import Home
+  from "./pages/Home/Home";
+
+import CarWashPlans
+  from "./pages/CarWashPlans/CarWashPlans";
+
+import Booking
+  from "./pages/Booking/Booking";
+
+import Login
+  from "./pages/Login/Login";
+
+import CartPage
+  from "./pages/Cart/CartPage";
+
+import CheckoutPage
+  from "./pages/Checkout/CheckoutPage";
+
 
 function App() {
 
@@ -45,10 +58,14 @@ function App() {
           element={<CartPage />}
         />
 
+        <Route
+          path="/checkout"
+          element={<CheckoutPage />}
+        />
+
       </Routes>
 
     </BrowserRouter>
-
   );
 }
 

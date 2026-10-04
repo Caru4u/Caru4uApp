@@ -6,12 +6,16 @@ import com.caru4u.Caru4u_Cart_Service.model.UpdateCartIteamRequest;
 
 public interface CartServices {
 
-    CartResponse getCart(Long customerId);
-
     CartResponse addToCart(
             Long customerId,
             AddToCartRequest request
     );
+
+
+    CartResponse getCart(
+            Long customerId
+    );
+
 
     CartResponse updateQuantity(
             Long customerId,
@@ -19,10 +23,14 @@ public interface CartServices {
             UpdateCartIteamRequest request
     );
 
+
     CartResponse removeItem(
             Long customerId,
             Long cartItemId
     );
 
-    void clearCart(Long customerId);
+
+    void clearCart(
+            Long customerId
+    );
 }

@@ -1,31 +1,25 @@
-package com.caru4u.Caru4u_Cart_Service.config;
+package Caru4u.Order_Servivce.config;
 
 
 
-import com.caru4u.Caru4u_Cart_Service.service.JwtAuthenticationFilter;
+import Caru4u.Order_Servivce.security.JwtAuthenticationFilter;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import org.springframework.security.config.Customizer;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 
-import org.springframework.security.config.annotation.web.builders
-        .HttpSecurity;
-
-import org.springframework.security.config.http
-        .SessionCreationPolicy;
+import org.springframework.security.config.http.SessionCreationPolicy;
 
 import org.springframework.security.web.SecurityFilterChain;
-
-import org.springframework.security.web.authentication
-        .UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 
-import org.springframework.web.cors
-        .UrlBasedCorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import java.util.List;
 
@@ -33,8 +27,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class SecurityConfig {
 
-    private final JwtAuthenticationFilter
-            jwtAuthenticationFilter;
+    private final JwtAuthenticationFilter jwtAuthenticationFilter;
 
 
     @Bean
@@ -59,7 +52,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
 
                         .requestMatchers(
-                                "/api/cart/**"
+                                "/api/checkout/**"
                         )
                         .authenticated()
 
@@ -78,8 +71,7 @@ public class SecurityConfig {
 
 
     @Bean
-    public CorsConfigurationSource
-    corsConfigurationSource() {
+    public CorsConfigurationSource corsConfigurationSource() {
 
         CorsConfiguration configuration =
                 new CorsConfiguration();

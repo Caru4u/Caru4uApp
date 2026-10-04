@@ -1,7 +1,5 @@
-package com.caru4u.Caru4u_Cart_Service.service;
+package Caru4u.Order_Servivce.security;
 
-import com.caru4u.Caru4u_Cart_Service.Security.CustomerPrincipal;
-import com.caru4u.Caru4u_Cart_Service.config.JwtService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -9,11 +7,8 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import lombok.RequiredArgsConstructor;
 
-import org.springframework.security.authentication
-        .UsernamePasswordAuthenticationToken;
-
-import org.springframework.security.core.context
-        .SecurityContextHolder;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 import org.springframework.stereotype.Component;
 
@@ -29,7 +24,6 @@ public class JwtAuthenticationFilter
 
     private final JwtService jwtService;
 
-
     @Override
     protected void doFilterInternal(
             HttpServletRequest request,
@@ -37,16 +31,11 @@ public class JwtAuthenticationFilter
             FilterChain filterChain
     ) throws ServletException, IOException {
 
-        String authorizationHeader =
+        String authHeader =
                 request.getHeader("Authorization");
 
-
-        // -----------------------------------------
-        // No Bearer token
-        // -----------------------------------------
-
-        if (authorizationHeader == null ||
-                !authorizationHeader.startsWith("Bearer ")) {
+        if (authHeader == null ||
+                !authHeader.startsWith("Bearer ")) {
 
             filterChain.doFilter(
                     request,
@@ -58,8 +47,7 @@ public class JwtAuthenticationFilter
 
 
         String token =
-                authorizationHeader.substring(7);
-
+                authHeader.substring(7);
 
         try {
 
@@ -92,11 +80,6 @@ public class JwtAuthenticationFilter
         } catch (Exception exception) {
 
             SecurityContextHolder.clearContext();
-
-            System.out.println(
-                    "JWT validation failed: "
-                            + exception.getMessage()
-            );
         }
 
 
