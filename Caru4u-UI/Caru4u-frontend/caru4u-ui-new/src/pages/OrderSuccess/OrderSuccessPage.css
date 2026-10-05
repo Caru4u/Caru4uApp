@@ -1,0 +1,120 @@
+.order-success-page {
+    min-height: 100vh;
+    background: #f5f8fc;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    padding: 30px;
+}
+
+.order-success-card {
+    width: 100%;
+    max-width: 620px;
+
+    background: white;
+
+    border-radius: 20px;
+
+    padding: 40px;
+
+    text-align: center;
+
+    box-shadow:
+        0 10px 35px
+        rgba(0, 0, 0, 0.08);
+}
+
+.success-check {
+    width: 80px;
+    height: 80px;
+
+    margin: 0 auto 20px;
+
+    border-radius: 50%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: #e8f8ee;
+
+    color: #16a34a;
+
+    font-size: 45px;
+    font-weight: bold;
+}
+
+.order-success-card h1 {
+    margin-bottom: 8px;
+
+    color: #152238;
+}
+
+.success-description {
+    color: #667085;
+
+    margin-bottom: 30px;
+}
+
+.success-details {
+    background: #f8fafc;
+
+    border-radius: 12px;
+
+    padding: 20px;
+
+    text-align: left;
+}
+
+.success-details > div {
+    display: flex;
+
+    justify-content: space-between;
+
+    gap: 25px;
+
+    padding: 13px 0;
+
+    border-bottom:
+        1px solid #e5e7eb;
+}
+
+.success-details > div:last-child {
+    border-bottom: none;
+}
+
+.success-details span {
+    color: #667085;
+}
+
+.success-details strong {
+    text-align: right;
+    word-break: break-word;
+}
+
+.status-success {
+    color: #16a34a;
+}
+
+.success-home-button {
+    width: 100%;
+
+    margin-top: 25px;
+
+    padding: 14px;
+
+    border: none;
+
+    border-radius: 9px;
+
+    background: #1687f8;
+
+    color: white;
+
+    font-size: 16px;
+    font-weight: 600;
+
+    cursor: pointer;
+}
