@@ -14,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
+
 @RestController
 @RequestMapping("/api")
 @RequiredArgsConstructor
@@ -24,17 +25,7 @@ public class CheckoutController {
 
 
     // =========================================================
-    // GET CHECKOUT DETAILS
-    // =========================================================
-    //
-    // GET:
-    // http://localhost:8085/api/checkout
-    //
-    // Header:
-    // Authorization: Bearer <JWT>
-    //
-    // customerId is NOT passed from frontend.
-    // It comes from the authenticated JWT.
+    // GET CHECKOUT
     // =========================================================
 
     @GetMapping("/checkout")
@@ -47,54 +38,11 @@ public class CheckoutController {
 
     ) {
 
-        // ==========================================
-        // Check authentication
-        // ==========================================
-
-        if (authentication == null ||
-                !authentication.isAuthenticated()) {
-
-            throw new SecurityException(
-                    "Customer is not authenticated"
-            );
-        }
-
-
-        // ==========================================
-        // Get logged-in customer from JWT
-        // ==========================================
-
-        Object principalObject =
-                authentication.getPrincipal();
-
-
-        if (!(principalObject instanceof CustomerPrincipal)) {
-
-            throw new SecurityException(
-                    "Invalid authenticated customer"
-            );
-        }
-
-
-        CustomerPrincipal principal =
-                (CustomerPrincipal) principalObject;
-
-
         Long customerId =
-                principal.getCustomerId();
+                getAuthenticatedCustomerId(
+                        authentication
+                );
 
-
-        if (customerId == null) {
-
-            throw new SecurityException(
-                    "Customer ID not found in authentication token"
-            );
-        }
-
-
-        // ==========================================
-        // Get checkout
-        // ==========================================
 
         CheckoutResponse response =
                 checkoutService.getCheckout(
@@ -103,31 +51,12 @@ public class CheckoutController {
                 );
 
 
-        return ResponseEntity.ok(
-                response
-        );
+        return ResponseEntity.ok(response);
     }
 
 
     // =========================================================
     // PLACE ORDER
-    // =========================================================
-    //
-    // POST:
-    // http://localhost:8085/api/checkout/place-order
-    //
-    // Header:
-    // Authorization: Bearer <JWT>
-    //
-    // Body example:
-    //
-    // {
-    //   "addressId": 1,
-    //   "preferredDate": "2026-10-05",
-    //   "preferredTime": "10:00 AM - 12:00 PM",
-    //   "paymentMethod": "CASH_ON_SERVICE"
-    // }
-    //
     // =========================================================
 
     @PostMapping("/place-order")
@@ -144,9 +73,71 @@ public class CheckoutController {
 
     ) {
 
-        // ==========================================
-        // Check authentication
-        // ==========================================
+        Long customerId =
+                getAuthenticatedCustomerId(
+                        authentication
+                );
+
+
+        System.out.println(
+                "=============================="
+        );
+
+        System.out.println(
+                "PLACE ORDER"
+        );
+
+        System.out.println(
+                "Customer ID: "
+                        + customerId
+        );
+
+        System.out.println(
+                "Address ID: "
+                        + request.getAddressId()
+        );
+
+        System.out.println(
+                "Payment Method: "
+                        + request.getPaymentMethod()
+        );
+
+        System.out.println(
+                "Preferred Date: "
+                        + request.getPreferredDate()
+        );
+
+        System.out.println(
+                "Preferred Time: "
+                        + request.getPreferredTime()
+        );
+
+        System.out.println(
+                "=============================="
+        );
+
+
+        PlaceOrderResponse response =
+                checkoutService.placeOrder(
+                        customerId,
+                        authorization,
+                        request
+                );
+
+
+        return ResponseEntity.ok(
+                response
+        );
+    }
+
+
+    // =========================================================
+    // AUTHENTICATED CUSTOMER
+    // =========================================================
+
+    private Long getAuthenticatedCustomerId(
+            Authentication authentication
+    ) {
 
         if (authentication == null ||
                 !authentication.isAuthenticated()) {
@@ -157,15 +148,12 @@ public class CheckoutController {
         }
 
 
-        // ==========================================
-        // Get principal
-        // ==========================================
-
         Object principalObject =
                 authentication.getPrincipal();
 
 
-        if (!(principalObject instanceof CustomerPrincipal)) {
+        if (!(principalObject
+                instanceof CustomerPrincipal)) {
 
             throw new SecurityException(
                     "Invalid authenticated customer"
@@ -174,7 +162,8 @@ public class CheckoutController {
 
 
         CustomerPrincipal principal =
-                (CustomerPrincipal) principalObject;
+                (CustomerPrincipal)
+                        principalObject;
 
 
         Long customerId =
@@ -189,20 +178,6 @@ public class CheckoutController {
         }
 
 
-        // ==========================================
-        // Place order
-        // ==========================================
-
-        PlaceOrderResponse response =
-                checkoutService.placeOrder(
-                        customerId,
-                        authorization,
-                        request
-                );
-
-
-        return ResponseEntity.ok(
-                response
-        );
+        return customerId;
     }
 }

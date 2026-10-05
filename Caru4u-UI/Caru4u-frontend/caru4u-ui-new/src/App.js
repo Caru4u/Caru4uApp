@@ -24,6 +24,10 @@ import CartPage
 import CheckoutPage
   from "./pages/Checkout/CheckoutPage";
 
+// NEW
+import OrderSuccessPage
+  from "./pages/OrderSuccess/OrderSuccessPage";
+
 
 function App() {
 
@@ -33,40 +37,82 @@ function App() {
 
       <Routes>
 
+        {/* ========================= */}
+        {/* HOME */}
+        {/* ========================= */}
+
         <Route
           path="/"
           element={<Home />}
         />
+
+
+        {/* ========================= */}
+        {/* CAR WASH PLANS */}
+        {/* ========================= */}
 
         <Route
           path="/car-wash"
           element={<CarWashPlans />}
         />
 
+
+        {/* ========================= */}
+        {/* BOOKING */}
+        {/* ========================= */}
+
         <Route
           path="/booking"
           element={<Booking />}
         />
+
+
+        {/* ========================= */}
+        {/* LOGIN */}
+        {/* ========================= */}
 
         <Route
           path="/login"
           element={<Login />}
         />
 
+
+        {/* ========================= */}
+        {/* CART */}
+        {/* ========================= */}
+
         <Route
           path="/cart"
           element={<CartPage />}
         />
+
+
+        {/* ========================= */}
+        {/* CHECKOUT */}
+        {/* ========================= */}
 
         <Route
           path="/checkout"
           element={<CheckoutPage />}
         />
 
+
+        {/* ========================= */}
+        {/* PAYMENT / ORDER SUCCESS */}
+        {/* ========================= */}
+
+        <Route
+          path="/order-success/:orderId"
+          element={<OrderSuccessPage />}
+        />
+
+
       </Routes>
 
     </BrowserRouter>
+
   );
+
 }
 
 export default App;
